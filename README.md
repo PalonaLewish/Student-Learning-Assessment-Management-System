@@ -46,9 +46,3 @@ A full-stack web application built with Node.js, Express, MySQL, HTML, and CSS u
 - Quiz submission with transaction-safe inserts and score persistence
 - Result history view for students
 - Clean HTML/CSS interface with EJS templates
-
-## Notes
-
-- Make sure MySQL is running locally before starting the app.
-- Use the `student_assessment.sql` file to create the database and schema.
-- For security in production, replace `SESSION_SECRET` and database credentials with strong values.
