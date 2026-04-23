@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results | Student Assessment</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <h1>Quiz Results</h1>
+          <p>Review your completed quizzes and scores.</p>
+        </div>
+        <nav>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/auth/logout">Logout</a>
+        </nav>
+      </header>
+
+      <div class="card">
+        <h2>Result History</h2>
+        <% if (results.length) { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Quiz ID</th>
+              <th>Date</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% results.forEach((result) => { %>
+            <tr>
+              <td><%= result.quiz_id %></td>
+              <td><%= new Date(result.date).toLocaleString() %></td>
+              <td><%= result.score %> %</td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <% } else { %>
+        <p>No results yet. Take a quiz to start tracking your score.</p>
+        <% } %>
+      </div>
+
+      <footer>
+        <p>Student Learning & Assessment Management System</p>
+      </footer>
+    </div>
+  </body>
+</html>

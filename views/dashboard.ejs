@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Student Assessment</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <h1>Welcome, <%= user.name %></h1>
+          <p>Role: <strong><%= user.role %></strong></p>
+        </div>
+        <nav>
+          <a href="/dashboard">Dashboard</a>
+          <% if (user.role === 'student') { %>
+          <a href="/quiz/results">My Results</a>
+          <% } %>
+          <a href="/auth/logout">Logout</a>
+        </nav>
+      </header>
+
+      <% if (message) { %>
+      <div class="alert success"><%= message %></div>
+      <% } %>
+
+      <% if (error) { %>
+      <div class="alert error"><%= error %></div>
+      <% } %>
+
+      <% if (user.role === 'admin') { %>
+      <div class="card">
+        <h2>Admin Management</h2>
+        <div>
+          <h3>Add a Subject</h3>
+          <form action="/questions/add-subject" method="post">
+            <label for="subject_name">Subject name</label>
+            <input id="subject_name" name="subject_name" type="text" placeholder="e.g. Mathematics" required />
+            <button type="submit">Add Subject</button>
+          </form>
+        </div>
+        <div>
+          <h3>Add a Topic</h3>
+          <form action="/questions/add-topic" method="post">
+            <label for="admin_subject_id">Subject</label>
+            <select id="admin_subject_id" name="subject_id" required>
+              <option value="">Select subject</option>
+              <% subjects.forEach((subject) => { %>
+              <option value="<%= subject.subject_id %>"><%= subject.subject_name %></option>
+              <% }) %>
+            </select>
+            <label for="topic_name">Topic name</label>
+            <input id="topic_name" name="topic_name" type="text" placeholder="e.g. Algebra" required />
+            <button type="submit">Add Topic</button>
+          </form>
+        </div>
+        <div>
+          <h3>Add a Question</h3>
+          <form action="/questions/add-question" method="post">
+            <label for="topic_id">Topic</label>
+            <select id="topic_id" name="topic_id" required>
+              <option value="">Select topic</option>
+              <% topics.forEach((topic) => { %>
+              <option value="<%= topic.topic_id %>"><%= topic.subject_name %> - <%= topic.topic_name %></option>
+              <% }) %>
+            </select>
+            <label for="question">Question</label>
+            <textarea id="question" name="question" rows="3" required></textarea>
+            <label for="optionA">Option A</label>
+            <input id="optionA" name="optionA" type="text" required />
+            <label for="optionB">Option B</label>
+            <input id="optionB" name="optionB" type="text" required />
+            <label for="optionC">Option C</label>
+            <input id="optionC" name="optionC" type="text" required />
+            <label for="optionD">Option D</label>
+            <input id="optionD" name="optionD" type="text" required />
+            <label for="correct_answer">Correct Answer</label>
+            <select id="correct_answer" name="correct_answer" required>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+            <label for="difficulty">Difficulty</label>
+            <select id="difficulty" name="difficulty" required>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+            <button type="submit">Add Question</button>
+          </form>
+        </div>
+      </div>
+      <% } %>
+
+      <% if (user.role === 'student' || user.role === 'admin') { %>
+      <div class="card">
+        <h2>Search Questions and Generate Quiz</h2>
+        <form action="/questions/search" method="get">
+          <label for="subject_id">Subject</label>
+          <select id="subject_id" name="subject_id">
+            <option value="">All subjects</option>
+            <% subjects.forEach((subject) => { %>
+            <option value="<%= subject.subject_id %>" <%= filters.subject_id == subject.subject_id ? 'selected' : '' %>><%= subject.subject_name %></option>
+            <% }) %>
+          </select>
+
+          <label for="topic_id">Topic</label>
+          <select id="topic_id" name="topic_id">
+            <option value="">All topics</option>
+            <% topics.forEach((topic) => { %>
+            <option value="<%= topic.topic_id %>" <%= filters.topic_id == topic.topic_id ? 'selected' : '' %>><%= topic.subject_name %> - <%= topic.topic_name %></option>
+            <% }) %>
+          </select>
+
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty" name="difficulty">
+            <option value="">Any difficulty</option>
+            <option value="Easy" <%= filters.difficulty === 'Easy' ? 'selected' : '' %>>Easy</option>
+            <option value="Medium" <%= filters.difficulty === 'Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="Hard" <%= filters.difficulty === 'Hard' ? 'selected' : '' %>>Hard</option>
+          </select>
+
+          <button type="submit">Search Questions</button>
+        </form>
+      </div>
+      <% } %>
+
+      <% if (searchResults && searchResults.length) { %>
+      <div class="card">
+        <h2>Filtered Questions</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Topic</th>
+              <th>Question</th>
+              <th>Difficulty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% searchResults.forEach((row) => { %>
+            <tr>
+              <td><%= row.subject_name %></td>
+              <td><%= row.topic_name %></td>
+              <td><%= row.question %></td>
+              <td><%= row.difficulty %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+
+      <% if (user.role === 'student') { %>
+      <div class="card">
+        <h2>Start Quiz</h2>
+        <form action="/quiz/start" method="post">
+          <label for="subject_id">Subject</label>
+          <select id="subject_id" name="subject_id">
+            <option value="">All subjects</option>
+            <% subjects.forEach((subject) => { %>
+            <option value="<%= subject.subject_id %>"><%= subject.subject_name %></option>
+            <% }) %>
+          </select>
+
+          <label for="topic_id">Topic</label>
+          <select id="topic_id" name="topic_id">
+            <option value="">All topics</option>
+            <% topics.forEach((topic) => { %>
+            <option value="<%= topic.topic_id %>"><%= topic.subject_name %> - <%= topic.topic_name %></option>
+            <% }) %>
+          </select>
+
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty" name="difficulty">
+            <option value="">Any difficulty</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+
+          <button type="submit">Generate Quiz</button>
+        </form>
+      </div>
+      <% } %>
+
+      <footer>
+        <p>Student Learning & Assessment Management System</p>
+      </footer>
+    </div>
+  </body>
+</html>

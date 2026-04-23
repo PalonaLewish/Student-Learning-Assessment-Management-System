@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Student Assessment</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Student Learning & Assessment</h1>
+      </header>
+      <div class="card">
+        <h2>Login</h2>
+        <% if (error) { %>
+        <div class="alert error"><%= error %></div>
+        <% } %>
+        <% if (success) { %>
+        <div class="alert success"><%= success %></div>
+        <% } %>
+        <form action="/auth/login" method="post">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required />
+
+          <button type="submit">Login</button>
+        </form>
+        <p>
+          Don't have an account? <a href="/auth/register">Register here</a>
+        </p>
+      </div>
+      <footer>
+        <p>Built with Node.js, Express, and MySQL</p>
+      </footer>
+    </div>
+  </body>
+</html>

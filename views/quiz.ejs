@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz | Student Assessment</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <h1>Quiz Attempt</h1>
+          <p>Please answer all questions and submit.</p>
+        </div>
+        <nav>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/quiz/results">Results</a>
+          <a href="/auth/logout">Logout</a>
+        </nav>
+      </header>
+
+      <% if (error) { %>
+      <div class="alert error"><%= error %></div>
+      <% } %>
+
+      <form action="/quiz/submit" method="post">
+        <input type="hidden" name="quiz_id" value="<%= quizId %>" />
+        <% questions.forEach((item, index) => { %>
+        <div class="card">
+          <h3>Question <%= index + 1 %></h3>
+          <p><strong><%= item.question %></strong></p>
+          <div class="radio-group">
+            <label><input type="radio" name="answer_<%= item.question_id %>" value="A" required /> A. <%= item.optionA %></label>
+            <label><input type="radio" name="answer_<%= item.question_id %>" value="B" required /> B. <%= item.optionB %></label>
+            <label><input type="radio" name="answer_<%= item.question_id %>" value="C" required /> C. <%= item.optionC %></label>
+            <label><input type="radio" name="answer_<%= item.question_id %>" value="D" required /> D. <%= item.optionD %></label>
+          </div>
+          <input type="hidden" name="questionIds" value="<%= item.question_id %>" />
+        </div>
+        <% }) %>
+        <button type="submit">Submit Quiz</button>
+      </form>
+
+      <footer>
+        <p>Good luck!</p>
+      </footer>
+    </div>
+  </body>
+</html>

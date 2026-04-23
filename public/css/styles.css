@@ -1,0 +1,126 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f3f7fa;
+  color: #333;
+}
+
+.container {
+  width: min(1080px, 95%);
+  margin: 0 auto;
+  padding: 24px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+
+nav a {
+  margin-left: 12px;
+  text-decoration: none;
+  color: #0f4c81;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+h1,
+h2,
+h3 {
+  color: #0f4c81;
+}
+
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  border: 1px solid #cbd6e2;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+button {
+  background: #0f4c81;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  background: #0c3a65;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+thead {
+  background: #0f4c81;
+  color: white;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  border: 1px solid #e7ecf1;
+  text-align: left;
+}
+
+.alert {
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.alert.success {
+  background: #e6f7ea;
+  border: 1px solid #8fc77c;
+  color: #265d30;
+}
+
+.alert.error {
+  background: #fef0f0;
+  border: 1px solid #e58989;
+  color: #8f1d1d;
+}
+
+footer {
+  text-align: center;
+  padding: 16px 0;
+  color: #777;
+}
+
+.radio-group {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+input[type='radio'] {
+  margin-right: 8px;
+}
